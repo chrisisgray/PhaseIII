@@ -27,6 +27,62 @@ public class Reporting {
 
                 option = scanner.nextLine();
                 switch (option) {
+                    case "1":
+                    System.out.print("Enter Patient SSN: ");
+                    
+                    String patientSSN = scanner.nextLine();
+                    Statement stmt = connection.createStatement();
+                    String str = "SELECT * FROM PATIENT WHERE PATIENT_SSN = " + patientSSN;
+                    ResultSet result = stmt.executeQuery(str);
+
+                        try {
+                            while (result.next()) {
+                                String fName = result.getString("FNAME");
+                                String lName = result.getString("LNAME");
+                                String address = result.getString("ADDRESS");
+                                result.close();
+                                stmt.close();
+                                System.out.println("Patient SSN: " + patientSSN);
+                                System.out.println("Patient First Name: " + fName);
+                                System.out.println("Patient Last Name: " + lName);
+                                System.out.println("Patient Address: " + address);
+
+                            }
+                        } catch(Exception e) {
+                            System.out.println("No elements retrieved");
+                        }
+                        break;
+
+                    case "2":
+                    System.out.print("Enter Doctor ID: ");
+                    
+                    String doctorID = scanner.nextLine();
+                    Statement docStmt = connection.createStatement();
+                    String docStr = "SELECT d.EMPLOYEEID, d.GENDER, d.SPECIALTY, d.GRADUATEDFROM, e.FNAME, e.LNAME" +
+                    "FROM DOCTOR d, EMPLOYEE e WHERE e.ID = " + doctorID;
+                    ResultSet docResult = docStmt.executeQuery(docStr);
+                        try {
+                            while (docResult.next()) {
+                                String fName = docResult.getString("FNAME");
+                                String lName = docResult.getString("LNAME");
+                                String gender = docResult.getString("GENDER");                                
+                                String graduatedFrom = docResult.getString("GRADUATEDFROM");
+                                String specialty = docResult.getString("SPECIALTY");                                
+                                docResult.close();
+                                docStmt.close();
+                                System.out.println("Doctor ID: " + doctorID);
+                                System.out.println("Doctor First Name: " + fName);
+                                System.out.println("Doctor Last Name: " + lName);
+                                System.out.println("Doctor Gender: " + gender);
+                                System.out.println("Doctor Graduated From: " + graduatedFrom);
+                                System.out.println("Doctor Specialty: " + specialty);
+
+                            }
+                        } catch(Exception e) {
+                            System.out.println("No elements retrieved");
+                        }
+                        break;
+                    
                     case "3":
                         System.out.print("Enter Admission Number: ");
                         int admissionNumber = scanner.nextInt();
